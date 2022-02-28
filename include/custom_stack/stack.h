@@ -157,11 +157,7 @@ public:
 
      T& top()
      {
-          if(top_)
-          {
-               return top_->value_;
-          }
-          throw custom::exceptions::EStackEmpty("Runtime error: stack is empty. Called function top()");
+          return const_cast<T&>(static_cast<const Stack&>(*this).top());
      }
 
      const T& top() const
