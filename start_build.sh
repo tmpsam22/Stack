@@ -10,5 +10,4 @@ cd build && \
 cmake .. && \
 cmake --build .  && \
 
-./custom_stack
-
+./output

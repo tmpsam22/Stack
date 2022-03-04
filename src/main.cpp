@@ -1,5 +1,7 @@
 #include <iostream>
 #include <custom_stack/stack.h>
+#include <person/person_keeper.h>
+#include <memory>
 
 using custom::objects::Stack;
 
@@ -14,9 +16,12 @@ void display(Stack<T> stack)
      std::cout << std::endl;
 }
 
+
 void test()
 {
      std::cout << "Hello world!\n";
+     PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
+     PersonKeeper_.someFoo();
 }
 
 int main() try
