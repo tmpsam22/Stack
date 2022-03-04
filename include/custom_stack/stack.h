@@ -2,7 +2,7 @@
 #ifndef INCLUDE_STACK_H
 #define INCLUDE_STACK_H
 
-// файл содержит реализацию класса Стек
+// файл stack.h содержит реализацию класса Стек
 
 #include <vector>
 #include <algorithm>

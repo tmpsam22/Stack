@@ -16,12 +16,10 @@ void display(Stack<T> stack)
      std::cout << std::endl;
 }
 
-
 void test()
 {
      std::cout << "Hello world!\n";
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
-     PersonKeeper_.someFoo();
 }
 
 int main() try

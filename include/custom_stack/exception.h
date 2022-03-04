@@ -1,7 +1,7 @@
 #ifndef CUSTOM_STACK_EXCEPTION_H
 #define CUSTOM_STACK_EXCEPTION_H
 
-//файл содержит exception-объекты custom_stack/stack.h
+//файл exception.h содержит exception-объекты custom_stack/stack.h
 
 #include <string>
 

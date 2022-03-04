@@ -1,5 +1,7 @@
 #include <person/person_keeper.h>
 
+// файл person_keeper.cpp содержит реализации класса PersonKeeper
+
 PersonKeeper::PersonKeeper()
 { }
 
