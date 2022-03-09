@@ -9,5 +9,8 @@ mkdir build && \
 cd build && \
 cmake .. && \
 cmake --build .  && \
-
-./output
+echo $'Russian Bear Sibirovich
+Dmitriev Aleksandr Dmitrievich
+Wild West Cowboy
+Stay Alive' > names.txt && \
+./first_lab

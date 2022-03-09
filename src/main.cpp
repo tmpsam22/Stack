@@ -1,9 +1,11 @@
 #include <iostream>
 #include <custom_stack/stack.h>
 #include <person/person_keeper.h>
+#include <person/person.h>
 #include <memory>
 
 using custom::objects::Stack;
+constexpr auto filename = "names.txt";
 
 template <typename T>
 void display(Stack<T> stack)
@@ -18,8 +20,11 @@ void display(Stack<T> stack)
 
 void test()
 {
-     std::cout << "Hello world!\n";
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
+     PersonKeeper_.readPersons<int>(filename);
+     Person person(Person::first_name("S"), Person::second_name("T"),
+          Person::patronymic("U"));
+     std::cout << person << std::endl;
 }
 
 int main() try
@@ -27,12 +32,12 @@ int main() try
      test();
      return EXIT_SUCCESS;
 }
-catch (custom::exceptions::EStackEmpty& e)
+catch(custom::exceptions::EStackException& e)
 {
      std::cerr << e.what() << std::endl;
      return EXIT_FAILURE;
 }
-catch(custom::exceptions::EStackException& e)
+catch(std::exception&e)
 {
      std::cerr << e.what() << std::endl;
      return EXIT_FAILURE;

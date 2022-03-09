@@ -41,7 +41,7 @@ private:
      };
 
 private:
-     // копирует значения в стэке из одного в другой
+     // копирует значения в стеке из одного в другой
      void copyFromTo(const Stack& rhs)
      {
           Node* tmpNode_ =  rhs.top_;
@@ -102,9 +102,11 @@ public:
      {
           if (this != &rhs)
           {
-               this->~Stack();
-               copyFromTo(rhs);
+               return *this;
           }
+
+          this->~Stack();
+          copyFromTo(rhs);
           return *this;
      }
 
@@ -112,12 +114,14 @@ public:
      {
           if (this != &rhs)
           {
-               this->~Stack();
-               top_ = rhs.top_;
-               size_ = rhs.size_;
-               rhs.top_ = nullptr;
-               rhs.size_ = 0;
+               return *this;
           }
+
+          this->~Stack();
+          top_ = rhs.top_;
+          size_ = rhs.size_;
+          rhs.top_ = nullptr;
+          rhs.size_ = 0;
           return *this;
      }
 
