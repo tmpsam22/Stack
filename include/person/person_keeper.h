@@ -4,6 +4,7 @@
 #include <custom_stack/stack.h>
 #include <fstream>
 #include <person/person.h>
+#include <string>
 // draft
 // -----
 // файл person_keeper.h содержит интерфейс объекта PersonKeeper
@@ -15,11 +16,11 @@ namespace objects
 class PersonKeeper
 {
 public:
-
-    //@todo
-    static Stack<Person> readPersons(const std::string& filename);
-
-    static void writePersons(Stack<Person>&);
+    // draft
+    /* t e */
+    static Stack<Person> readPersons(const std::string& input_filename);
+    /* add flags to out */
+    static void writePersons(Stack<Person> stack, const std::string& output_filename="");
 
     PersonKeeper(const PersonKeeper&) = delete;
     PersonKeeper(PersonKeeper&&) = delete;

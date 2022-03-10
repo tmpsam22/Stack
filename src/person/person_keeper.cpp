@@ -19,25 +19,39 @@ PersonKeeper& PersonKeeper::CreateInstance()
     return PersonKeeper_;
 }
 
-void PersonKeeper::writePersons(Stack<Person>&)
-{ }
+void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename)
+{
+    std::string outname = filename.empty() ? "default_output.txt" : filename;
+    std::ofstream ofile(outname);
+    if (!ofile)
+    {
+        throw std::runtime_error("Can't open file");
+    }
+    while (!stack.empty())
+    {
+        ofile << stack.top() << std::endl;
+        stack.pop();
+    }
+    ofile.close();
+}
 
 Stack<Person> PersonKeeper::readPersons(const std::string& filename)
 {
-    std::ifstream file(filename);
-    if (!file.is_open())
+    std::ifstream ifile(filename);
+    if (!ifile.is_open())
     {
         throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
     }
 
     Stack<Person> stackPerson;
     /* test me */
-    while (file)
+    /* add err */
+    while (ifile)
     {
         std::string str{};
         int count = 0;
         Person tmpPerson;
-        while (count < 3 && file >> str)
+        while (count < 3 && ifile >> str)
         {
             ++count;
             switch (count)
@@ -57,6 +71,7 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
             }
         }
     }
+    ifile.close();
     return stackPerson;
 }
 

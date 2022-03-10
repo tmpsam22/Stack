@@ -13,4 +13,6 @@ echo $'Russian Bear Sibirovich
 Dmitriev Aleksandr Dmitrievich
 Wild West Cowboy
 Stay Alive !' > names.txt && \
-./first_lab
+./first_lab names.txt fromstack.txt
+# names.txt is input file
+# fromstack.txt is output file

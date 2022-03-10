@@ -5,7 +5,6 @@
 #include <memory>
 
 using namespace custom::objects;
-constexpr auto filename = "names.txt";
 
 template <typename T>
 void display(Stack<T> stack)
@@ -18,16 +17,20 @@ void display(Stack<T> stack)
      std::cout << std::endl;
 }
 
-void test()
+void test(const std::string& in_filename, const std::string& out_filename)
 {
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
-     auto stackPersons = PersonKeeper_.readPersons(filename);
-     display(stackPersons);
+     auto stackPersons = PersonKeeper_.readPersons(in_filename);
+     PersonKeeper_.writePersons(stackPersons, out_filename);
 }
 
-int main() try
+int main(int argc, const char** argv) try
 {
-     test();
+     if (argc != 3)
+     {
+          return EXIT_FAILURE;
+     }
+     test(argv[1], argv[2]); //input, output
      return EXIT_SUCCESS;
 }
 catch(custom::exceptions::EStackException& e)
