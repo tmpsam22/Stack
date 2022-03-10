@@ -19,13 +19,14 @@ PersonKeeper& PersonKeeper::CreateInstance()
     return PersonKeeper_;
 }
 
-void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename)
+void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename, std::ios_base::openmode openmode)
 {
     std::string outname = filename.empty() ? "default_output.txt" : filename;
-    std::ofstream ofile(outname);
+
+    std::ofstream ofile(outname, openmode);
     if (!ofile)
     {
-        throw std::runtime_error("Can't open file");
+        throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
     }
     while (!stack.empty())
     {

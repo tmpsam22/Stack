@@ -19,8 +19,8 @@ public:
     // draft
     /* t e */
     static Stack<Person> readPersons(const std::string& input_filename);
-    /* add flags to out */
-    static void writePersons(Stack<Person> stack, const std::string& output_filename="");
+    static void writePersons(Stack<Person> stack, const std::string& output_filename="",
+        std::ios_base::openmode openmode = std::ios_base::out);
 
     PersonKeeper(const PersonKeeper&) = delete;
     PersonKeeper(PersonKeeper&&) = delete;
