@@ -21,7 +21,8 @@ void display(Stack<T> stack)
 void test()
 {
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
-     PersonKeeper_.readPersons(filename);
+     auto stackPersons = PersonKeeper_.readPersons(filename);
+     display(stackPersons);
 }
 
 int main() try

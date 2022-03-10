@@ -4,7 +4,6 @@
 #include <custom_stack/stack.h>
 #include <fstream>
 #include <person/person.h>
-
 // draft
 // -----
 // файл person_keeper.h содержит интерфейс объекта PersonKeeper
@@ -18,19 +17,9 @@ class PersonKeeper
 public:
 
     //@todo
-    static Stack<Person> readPersons(const std::string& filename)
-    {
-        std::ifstream file(filename);
-        if (!file.is_open())
-        {
-            throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
-        }
-        return Stack<Person>();
-    }
+    static Stack<Person> readPersons(const std::string& filename);
 
-    static void writePersons(Stack<Person>&)
-    {
-    }
+    static void writePersons(Stack<Person>&);
 
     PersonKeeper(const PersonKeeper&) = delete;
     PersonKeeper(PersonKeeper&&) = delete;

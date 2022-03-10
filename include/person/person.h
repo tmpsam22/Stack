@@ -40,7 +40,7 @@ public:
     };
 
 public:
-
+    Person();
     explicit Person(first_name&&, second_name&&, patronymic&&);
     explicit Person(const first_name&, const second_name&, const patronymic&);
 

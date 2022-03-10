@@ -22,6 +22,8 @@ Person::Person(const first_name& first_name_,
         patronymic_(patronymic_arg.patronymic_)
 { }
 
+Person::Person()
+{ }
 Person::~Person()
 { }
 
@@ -40,17 +42,17 @@ inline const std::string& Person::getPatronymic() const
     return patronymic_;
 }
 
-inline void Person::setFirstName(const std::string& firstName)
+void Person::setFirstName(const std::string& firstName)
 {
     firstName_ = firstName;
 }
 
-inline void Person::setSecondName(const std::string& secondName)
+void Person::setSecondName(const std::string& secondName)
 {
     secondName_ = secondName;
 }
 
-inline void Person::setPatronymic(const std::string& patronymic)
+void Person::setPatronymic(const std::string& patronymic)
 {
     patronymic_ = patronymic;
 }
