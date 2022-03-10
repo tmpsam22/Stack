@@ -3,31 +3,33 @@
 
 #include <custom_stack/stack.h>
 #include <fstream>
-#include <iostream>
+#include <person/person.h>
+
 // draft
 // -----
 // файл person_keeper.h содержит интерфейс объекта PersonKeeper
+namespace custom
+{
+namespace objects
+{
 
 class PersonKeeper
 {
 public:
 
     //@todo
-    template<typename T>
-    static custom::objects::Stack<T> readPersons(const std::string& filename)
+    static Stack<Person> readPersons(const std::string& filename)
     {
         std::ifstream file(filename);
         if (!file.is_open())
         {
             throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
         }
-        return custom::objects::Stack<T>();
+        return Stack<Person>();
     }
 
-    template<typename T>
-    static void writePersons(custom::objects::Stack<T>&)
+    static void writePersons(Stack<Person>&)
     {
-
     }
 
     PersonKeeper(const PersonKeeper&) = delete;
@@ -42,5 +44,8 @@ private:
 public:
     static PersonKeeper& CreateInstance();
 };
+
+}   // namespace objects
+}   // namespace custom
 
 #endif

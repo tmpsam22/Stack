@@ -4,7 +4,7 @@
 #include <person/person.h>
 #include <memory>
 
-using custom::objects::Stack;
+using namespace custom::objects;
 constexpr auto filename = "names.txt";
 
 template <typename T>
@@ -21,10 +21,7 @@ void display(Stack<T> stack)
 void test()
 {
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
-     PersonKeeper_.readPersons<int>(filename);
-     Person person(Person::first_name("S"), Person::second_name("T"),
-          Person::patronymic("U"));
-     std::cout << person << std::endl;
+     PersonKeeper_.readPersons(filename);
 }
 
 int main() try
