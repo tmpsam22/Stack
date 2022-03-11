@@ -1,5 +1,5 @@
 #include <iostream>
-#include <custom_stack/stack.h>
+#include <stack/stack.h>
 #include <person/person_keeper.h>
 #include <person/person.h>
 #include <memory>

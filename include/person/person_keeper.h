@@ -1,7 +1,7 @@
 #ifndef PERSON_KEEPER_H
 #define PERSON_KEEPER_H
 
-#include <custom_stack/stack.h>
+#include <stack/stack.h>
 #include <fstream>
 #include <person/person.h>
 #include <string>

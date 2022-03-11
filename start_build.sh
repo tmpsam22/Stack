@@ -9,7 +9,7 @@ mkdir build && \
 cd build && \
 cmake .. && \
 cmake --build .  && \
-echo $'Russian Bear Sibirovich
+echo $'Rus321sian Bear Sibi32rovich
 Dmitriev Aleksandr Dmitrievich
 Wild West Cowboy
 Stay Alive !' > names.txt && \

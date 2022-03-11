@@ -6,7 +6,7 @@
 
 #include <vector>
 #include <algorithm>
-#include <custom_stack/exception.h>
+#include <stack/exception.h>
 
 namespace custom
 {
