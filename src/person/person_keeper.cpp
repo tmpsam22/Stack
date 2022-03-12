@@ -45,16 +45,32 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
     }
 
     Stack<Person> stackPerson;
-    /* test me */
-    /* add err */
-    while (ifile)
+
+    while (!ifile.eof())
     {
-        std::string str{};
-        int count = 0;
         Person tmpPerson;
-        while (count < 3 && ifile >> str)
+        int count = 0;
+        while (count < 3)
         {
+            std::string str{};
             ++count;
+            char ch;
+
+            while (ifile.get(ch) && !isspace(ch))
+            {
+                if (!isalpha(ch))
+                {
+                    ifile.close();
+                    throw std::runtime_error("Got unexpected symbol in file");
+                }
+                str += ch;
+            }
+
+            while (isspace(ifile.peek()))
+            {
+                ifile.get();
+            }
+
             switch (count)
             {
                 case 1:

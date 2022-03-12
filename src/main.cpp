@@ -11,16 +11,16 @@ void display(Stack<T> stack)
 {
      while(stack.size())
      {
-          std::cout << stack.top() << '\t';
+          std::cout << stack.top() << '\n';
           stack.pop();
      }
-     std::cout << std::endl;
 }
 
 void test(const std::string& in_filename, const std::string& out_filename)
 {
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
      auto stackPersons = PersonKeeper_.readPersons(in_filename);
+     display(stackPersons);
      PersonKeeper_.writePersons(stackPersons, out_filename);
 }
 
