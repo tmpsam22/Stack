@@ -2,12 +2,12 @@
 #define PERSON_KEEPER_H
 
 #include <stack/stack.h>
-#include <fstream>
 #include <person/person.h>
+#include <fstream>
 #include <string>
-// draft
-// -----
+
 // файл person_keeper.h содержит интерфейс объекта PersonKeeper
+
 namespace custom
 {
 namespace objects
@@ -16,10 +16,15 @@ namespace objects
 class PersonKeeper
 {
 public:
-    // draft
-    /* t e */
-    static Stack<Person> readPersons(const std::string& input_filename);
-    static void writePersons(Stack<Person> stack, const std::string& output_filename="",
+
+    // Считывает ФИО из файла в стек,
+    // где input_filename - его название
+    Stack<Person> readPersons(const std::string& input_filename);
+
+    // Записывает из стека в файл,
+    // output_filename - его название
+    // openmode - флаги открытия файла
+    void writePersons(Stack<Person> stack, const std::string& output_filename="",
         std::ios_base::openmode openmode = std::ios_base::out);
 
     PersonKeeper(const PersonKeeper&) = delete;

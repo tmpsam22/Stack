@@ -60,7 +60,7 @@ struct EStackEmpty : EStackException
      { }
 };
 
-} // namespace exceptions
-} // namespace custom
+}    // namespace exceptions
+}    // namespace custom
 
 #endif

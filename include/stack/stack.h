@@ -48,7 +48,7 @@ private:
           std::vector<T> v;
           v.reserve(rhs.size());
 
-          while(tmpNode_)
+          while (tmpNode_)
           {
                v.push_back(tmpNode_->value_);
                tmpNode_ = tmpNode_->prev_;
@@ -75,7 +75,7 @@ public:
 
      ~Stack()
      {
-          while(size_)
+          while (size_)
           {
                pop();
           }
@@ -150,7 +150,7 @@ public:
 
      void pop()
      {
-          if(top_)
+          if (top_)
           {
                Node* tmpNode = top_;
                top_ = top_->prev_;
@@ -166,7 +166,7 @@ public:
 
      const T& top() const
      {
-          if(top_)
+          if (top_)
           {
                return top_->value_;
           }
@@ -178,8 +178,8 @@ public:
      size_t size_ {};    // размерность стека
 };
 
-} // namespace objects
-} // namespace custom
+}    // namespace objects
+}    // namespace custom
 
 #endif
 

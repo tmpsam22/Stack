@@ -27,17 +27,17 @@ Person::Person()
 Person::~Person()
 { }
 
-inline const std::string& Person::getFirstName() const
+const std::string& Person::getFirstName() const
 {
     return firstName_;
 }
 
-inline const std::string& Person::getSecondName() const
+const std::string& Person::getSecondName() const
 {
     return secondName_;
 }
 
-inline const std::string& Person::getPatronymic() const
+const std::string& Person::getPatronymic() const
 {
     return patronymic_;
 }

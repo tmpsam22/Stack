@@ -21,6 +21,7 @@ public:
         {}
         std::string firstName_{};
     };
+
     struct second_name
     {
         explicit second_name(std::string&& secondName) : secondName_(std::move(secondName))
@@ -40,10 +41,11 @@ public:
     };
 
 public:
-    Person();
+
     explicit Person(first_name&&, second_name&&, patronymic&&);
     explicit Person(const first_name&, const second_name&, const patronymic&);
 
+    Person();
     virtual ~Person();
 
     const std::string& getFirstName() const;

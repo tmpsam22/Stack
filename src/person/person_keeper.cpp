@@ -28,11 +28,13 @@ void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename
     {
         throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
     }
+
     while (!stack.empty())
     {
         ofile << stack.top() << std::endl;
         stack.pop();
     }
+
     ofile.close();
 }
 
@@ -50,6 +52,7 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
     {
         Person tmpPerson;
         int count = 0;
+        // * в файле ожидается ФИО
         while (count < 3)
         {
             std::string str{};
@@ -58,7 +61,7 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
 
             while (ifile.get(ch) && !isspace(ch))
             {
-                if (!isalpha(ch))
+                if (!isalpha(ch)) // символ не является буквой
                 {
                     ifile.close();
                     throw std::runtime_error("Got unexpected symbol in file");
@@ -66,6 +69,7 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
                 str += ch;
             }
 
+            // считываем пробелы
             while (isspace(ifile.peek()))
             {
                 ifile.get();

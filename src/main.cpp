@@ -20,6 +20,7 @@ void test(const std::string& in_filename, const std::string& out_filename)
 {
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
      auto stackPersons = PersonKeeper_.readPersons(in_filename);
+     std::cout << stackPersons.top().getPatronymic() << std::endl;
      display(stackPersons);
      PersonKeeper_.writePersons(stackPersons, out_filename);
 }
