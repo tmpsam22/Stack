@@ -1,7 +1,7 @@
 #include <person/person_keeper.h>
 
 // файл person_keeper.cpp содержит реализации класса PersonKeeper
-
+#include <iostream>
 namespace custom
 {
 namespace objects
@@ -19,14 +19,11 @@ PersonKeeper& PersonKeeper::CreateInstance()
     return PersonKeeper_;
 }
 
-void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename, std::ios_base::openmode openmode)
+void PersonKeeper::writePersons(Stack<Person> stack, std::ofstream& ofile)
 {
-    std::string outname = filename.empty() ? "default_output.txt" : filename;
-
-    std::ofstream ofile(outname, openmode);
     if (!ofile)
     {
-        throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
+        throw std::runtime_error( "Got error while writing to the file: File is anccurate!" );
     }
 
     while (!stack.empty())
@@ -34,16 +31,55 @@ void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename
         ofile << stack.top() << std::endl;
         stack.pop();
     }
+}
 
-    ofile.close();
+void PersonKeeper::writePersons(Stack<Person> stack, std::fstream& ofile)
+{
+    if (!ofile)
+    {
+        throw std::runtime_error( "Got error while writing to the file: File is anccurate!" );
+    }
+
+    while (!stack.empty())
+    {
+        ofile << stack.top() << std::endl;
+        stack.pop();
+    }
+}
+
+void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename, std::ios_base::openmode openmode)
+{
+    std::string outname = filename.empty() ? "default_output.txt" : filename;
+    std::ofstream ofile{outname, openmode};
+
+    while (!stack.empty())
+    {
+        ofile << stack.top() << std::endl;
+        stack.pop();
+    }
+}
+
+Stack<Person> PersonKeeper::readPersons(std::ifstream& ifile)
+{
+    return doReadPersons(ifile);
+}
+
+Stack<Person> PersonKeeper::readPersons(std::fstream& ifile)
+{
+    return doReadPersons(ifile);
 }
 
 Stack<Person> PersonKeeper::readPersons(const std::string& filename)
 {
-    std::ifstream ifile(filename);
-    if (!ifile.is_open())
+    std::ifstream ifile{filename};
+    return readPersons(ifile);
+}
+
+Stack<Person> PersonKeeper::doReadPersons(std::istream& ifile)
+{
+    if (!ifile)
     {
-        throw std::runtime_error( "File: \"" + filename + "\" couldn't open!" );
+        throw std::runtime_error( "Got error while writing to the file: File is anccurate!" );
     }
 
     Stack<Person> stackPerson;
@@ -63,7 +99,6 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
             {
                 if (!isalpha(ch)) // символ не является буквой
                 {
-                    ifile.close();
                     throw std::runtime_error("Got unexpected symbol in file");
                 }
                 str += ch;
@@ -92,7 +127,6 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
             }
         }
     }
-    ifile.close();
     return stackPerson;
 }
 

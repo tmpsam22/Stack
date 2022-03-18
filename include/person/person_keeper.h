@@ -17,20 +17,32 @@ class PersonKeeper
 {
 public:
 
-    // Считывает ФИО из файла в стек,
-    // где input_filename - его название
+    /// * Считывает ФИО из файла в стек,
+    // input_filename - его название
     Stack<Person> readPersons(const std::string& input_filename);
+    // считывание из с объекта (i)fstream
+    Stack<Person> readPersons(std::fstream& ifile);
+    Stack<Person> readPersons(std::ifstream& ifile);
 
-    // Записывает из стека в файл,
+    /// * Записывает из стека в файл,
     // output_filename - его название
     // openmode - флаги открытия файла
     void writePersons(Stack<Person> stack, const std::string& output_filename="",
         std::ios_base::openmode openmode = std::ios_base::out);
 
+    // запись в объект (o)fstream
+    void writePersons(Stack<Person> stack, std::ofstream& ofile);
+    void writePersons(Stack<Person> stack, std::fstream& ofile);
+
     PersonKeeper(const PersonKeeper&) = delete;
     PersonKeeper(PersonKeeper&&) = delete;
     PersonKeeper& operator=(const PersonKeeper&) = delete;
     PersonKeeper& operator=(PersonKeeper&&) = delete;
+
+private:
+    // считывает ФИО из файла
+    // используется в функциях readPersons
+    Stack<Person> doReadPersons(std::istream&);
 
 private:
     PersonKeeper();

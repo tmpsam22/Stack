@@ -19,8 +19,8 @@ void display(Stack<T> stack)
 void test(const std::string& in_filename, const std::string& out_filename)
 {
      PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
-     auto stackPersons = PersonKeeper_.readPersons(in_filename);
-     std::cout << stackPersons.top().getPatronymic() << std::endl;
+     std::fstream ifile(in_filename);
+     auto stackPersons = PersonKeeper_.readPersons(ifile);
      display(stackPersons);
      PersonKeeper_.writePersons(stackPersons, out_filename);
 }
