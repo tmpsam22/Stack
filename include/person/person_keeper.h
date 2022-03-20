@@ -44,6 +44,10 @@ private:
     // используется в функциях readPersons
     Stack<Person> doReadPersons(std::istream&);
 
+    // Запись данных из стека в файл
+    // используется в writePersons
+    void doWritePersons(Stack<Person>& stack, std::ostream&);
+
 private:
     PersonKeeper();
     ~PersonKeeper();

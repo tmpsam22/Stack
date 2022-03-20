@@ -10,7 +10,7 @@ cmake .. && \
 cmake --build .  && \
 echo $'Russian      Bear    Sibirovich
 Dmitriev Aleksandr   Dmitrievich
-Wild West Cowboy\n' > names.txt && \
+Wild West Cowboy' > names.txt && \
 ./first_lab names.txt fromstack.txt
 # names.txt is input file
 # fromstack.txt is output file

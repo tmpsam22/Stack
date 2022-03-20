@@ -1,7 +1,6 @@
 #include <person/person_keeper.h>
 
 // файл person_keeper.cpp содержит реализации класса PersonKeeper
-#include <iostream>
 namespace custom
 {
 namespace objects
@@ -21,42 +20,19 @@ PersonKeeper& PersonKeeper::CreateInstance()
 
 void PersonKeeper::writePersons(Stack<Person> stack, std::ofstream& ofile)
 {
-    if (!ofile)
-    {
-        throw std::runtime_error( "Got error while writing to the file: File is anccurate!" );
-    }
-
-    while (!stack.empty())
-    {
-        ofile << stack.top() << std::endl;
-        stack.pop();
-    }
+    doWritePersons(stack, ofile);
 }
 
 void PersonKeeper::writePersons(Stack<Person> stack, std::fstream& ofile)
 {
-    if (!ofile)
-    {
-        throw std::runtime_error( "Got error while writing to the file: File is anccurate!" );
-    }
-
-    while (!stack.empty())
-    {
-        ofile << stack.top() << std::endl;
-        stack.pop();
-    }
+    doWritePersons(stack, ofile);
 }
 
 void PersonKeeper::writePersons(Stack<Person> stack, const std::string& filename, std::ios_base::openmode openmode)
 {
     std::string outname = filename.empty() ? "default_output.txt" : filename;
     std::ofstream ofile{outname, openmode};
-
-    while (!stack.empty())
-    {
-        ofile << stack.top() << std::endl;
-        stack.pop();
-    }
+    doWritePersons(stack, ofile);
 }
 
 Stack<Person> PersonKeeper::readPersons(std::ifstream& ifile)
@@ -73,6 +49,20 @@ Stack<Person> PersonKeeper::readPersons(const std::string& filename)
 {
     std::ifstream ifile{filename};
     return readPersons(ifile);
+}
+
+void PersonKeeper::doWritePersons(Stack<Person>& stack, std::ostream& ofile)
+{
+    if (!ofile)
+    {
+        throw std::runtime_error( "Got error while writing to the file: File is anccurate!" );
+    }
+
+    while (!stack.empty())
+    {
+        ofile << stack.top() << std::endl;
+        stack.pop();
+    }
 }
 
 Stack<Person> PersonKeeper::doReadPersons(std::istream& ifile)
