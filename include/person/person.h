@@ -3,10 +3,6 @@
 
 /// @file person.h
 /// @brief содержит интерфейс объекта Person
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
 #include <string>
 
 namespace custom
