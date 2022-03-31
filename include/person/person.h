@@ -1,7 +1,9 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-// файл person.h содержит интерфейс объекта Person
+/// @file person.h
+/// @brief содержит интерфейс объекта Person
+
 #include <string>
 
 namespace custom
@@ -9,6 +11,7 @@ namespace custom
 namespace objects
 {
 
+/// @brief класс хранит ФИО человека
 class Person
 {
 

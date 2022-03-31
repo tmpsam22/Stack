@@ -18,11 +18,10 @@ void display(Stack<T> stack)
 
 void test(const std::string& in_filename, const std::string& out_filename)
 {
-     PersonKeeper& PersonKeeper_ = PersonKeeper::CreateInstance();
      std::fstream file(in_filename);
-     auto stackPersons = PersonKeeper_.readPersons(file);
+     auto stackPersons = PersonKeeper::CreateInstance().readPersons(file);
      display(stackPersons);
-     PersonKeeper_.writePersons(stackPersons, file);
+     PersonKeeper::CreateInstance().writePersons(stackPersons, file);
 }
 
 int main(int argc, const char** argv) try

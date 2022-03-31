@@ -2,7 +2,8 @@
 #ifndef INCLUDE_STACK_H
 #define INCLUDE_STACK_H
 
-// файл stack.h содержит реализацию класса Стек
+/// @file stack.h
+/// @brief содержит реализацию класса Стек
 
 #include <vector>
 #include <algorithm>
@@ -21,10 +22,15 @@ private:
      // алиас для использования явного конструктора для объектов, которые не являются Stack//Node
      // * чтобы должным образом отрабатывала перегрузка конструкторов
      template <typename first_type, typename second_type>
-     using is_not_same_type = typename std::enable_if<!std::is_same<second_type, typename std::decay<first_type>::type>::value>::type;
+     using is_not_same_type = typename std::enable_if_t<!std::is_same<second_type, typename std::decay<first_type>::type>::value>;
 
+
+     /// @brief Вспомогательный класс для стека, отвечающий за узлы
      struct Node
      {
+          /// @brief конструктор класса Node
+          /// @param value инициализация нового узла значением value
+          /// @param prev указатель на предыдущий узел
           template <typename U, typename = is_not_same_type<U, Node>>
           explicit Node(U&& value, Node* prev = nullptr)
                : value_(std::forward<U>(value)), prev_(prev)
@@ -41,9 +47,82 @@ private:
      };
 
 private:
-     // копирует значения в стеке из одного в другой
-     void copyFromTo(const Stack& rhs)
-     {
+
+     /// @brief вспомогательная функция для копирования
+     /// всех узлов из другого стека в новый
+     /// @param rhs копируемый стек
+     void copyFromTo(const Stack& rhs);
+
+     /// @brief создает новый узел
+     /// @param value инициализация нового узла значением value
+     /// @param prev указатель на предыдущий узел
+     /// @return новый узел
+     /// @throw custom::exceptions::EStackException узел не создался из-за нехватки памяти
+     template <typename U>
+     Node* createNode(U&& value, Node* prev = nullptr);
+
+public:
+
+     /// @brief конструктор по умолчанию
+     Stack();
+
+     /// @brief деструктор
+     ~Stack();
+
+     /// @brief конструктор копирования
+     Stack(const Stack&  stack);
+
+     /// @brief конструктор перемещения
+     Stack(Stack&& stack);
+
+     /// @brief оператор присваивания
+     Stack& operator=(const Stack& stack);
+
+     /// @brief оператор перемещения
+     Stack& operator=(Stack&& stack);
+
+     /// @brief создает объект с одним узлом
+     /// @param value значение узла
+     template <typename U, typename = is_not_same_type<U, Stack>>
+     explicit Stack(U&& value) :
+          top_(createNode(std::forward<U>(value))), size_(1)
+     { }
+
+public:
+
+     /// @brief Получение размерности стека
+     /// @return размер стека
+     size_t size() const;
+
+     /// @brief Является ли стек пустым
+     /// @return true - стек пустой, false - не пуст
+     bool empty() const;
+
+     /// @brief Добавление значения в стек
+     /// @param value - значение (lvalue)
+     void push(const T& value);
+
+     /// @brief Добавление значения в стек
+     /// @param value - значение (rvalue)
+     void push(T&& value);
+
+     /// @brief Удаление последнего значения из стека
+     void pop();
+
+     /// @brief Возвращает последнее значение из стека
+     T& top();
+
+     /// @brief Возвращает последнее значение из стека
+     const T& top() const;
+public:
+     Node* top_ {};      // указатель(хвост) на узел
+     size_t size_ {};    // размерность стека
+};
+
+
+template <typename T>
+void Stack<T>::copyFromTo(const Stack& rhs)
+{
           Node* tmpNode_ =  rhs.top_;
           std::vector<T> v;
           v.reserve(rhs.size());
@@ -55,128 +134,133 @@ private:
           }
           std::for_each(v.rbegin(), v.rend(),
                     [&](const auto& value) { push(value); });
-     }
-     // создает новый узел
-     template <typename U>
-     Node* createNode(U&& value, Node* prev = nullptr)
+}
+
+template <typename T>
+template <typename U>
+typename Stack<T>::Node* Stack<T>::createNode(U&& value, Stack<T>::Node* prev)
+{
+     Node* tmpNode_ {};
+     try
      {
-          Node* tmpNode_ = new (std::nothrow) Node(std::forward<U>(value), prev);
-
-          if (!tmpNode_)      // tmpNode_ = nullptr, если узел не создался
-          {
-               throw custom::exceptions::EStackException("Runtime error: bad_alloc");
-          }
-          return tmpNode_;
+          tmpNode_ = new Node(std::forward<U>(value), prev);
      }
-
-public:
-     Stack()
-     { }
-
-     ~Stack()
+     catch(std::bad_alloc& e)
      {
-          while (size_)
-          {
-               pop();
-          }
+          throw custom::exceptions::EStackException("Runtime error: bad_alloc");
      }
+     return tmpNode_;
+}
 
-     Stack(const Stack& rhs)
+template <typename T>
+Stack<T>::Stack()
+{
+}
+
+template <typename T>
+Stack<T>::~Stack()
+{
+     while (size_)
      {
-          copyFromTo(rhs); // используется push(x) => size_ инкрементируется
+          pop();
      }
+}
 
-     Stack(Stack&& rhs) : top_(rhs.top_), size_(rhs.size_)
+template <typename T>
+Stack<T>::Stack(const Stack<T> & stack)
+{
+     copyFromTo(stack); // используется push(x) => size_ инкрементируется
+}
+
+template <typename T>
+Stack<T>::Stack(Stack<T>&& rhs) : top_(rhs.top_), size_(rhs.size_)
+{
+     rhs.top_ = nullptr;
+     rhs.size_ = 0;
+}
+
+template <typename T>
+Stack<T>& Stack<T>::operator=(const Stack<T>& rhs)
+{
+     if (this != &rhs)
      {
-          rhs.top_ = nullptr;
-          rhs.size_ = 0;
-     }
-
-     // конструирует объект с одним узлом
-     template <typename U, typename = is_not_same_type<U, Stack>>
-     explicit Stack(U&& value) :
-          top_(createNode(std::forward<U>(value))), size_(1)
-     { }
-
-     Stack& operator=(const Stack& rhs)
-     {
-          if (this != &rhs)
-          {
-               return *this;
-          }
-
-          this->~Stack();
-          copyFromTo(rhs);
           return *this;
      }
 
-     Stack& operator=(Stack&& rhs)
-     {
-          if (this != &rhs)
-          {
-               return *this;
-          }
+     this->~Stack();
+     copyFromTo(rhs);
+     return *this;
+}
 
-          this->~Stack();
-          top_ = rhs.top_;
-          size_ = rhs.size_;
-          rhs.top_ = nullptr;
-          rhs.size_ = 0;
+template <typename T>
+Stack<T>& Stack<T>::operator=(Stack<T>&& rhs)
+{
+     if (this != &rhs)
+     {
           return *this;
      }
 
-public:
-     size_t size() const
-     {
-          return size_;
-     }
+     this->~Stack();
+     top_ = rhs.top_;
+     size_ = rhs.size_;
+     rhs.top_ = nullptr;
+     rhs.size_ = 0;
+     return *this;
+}
 
-     bool empty() const
-     {
-          return top_ == nullptr;
-     }
+template <typename T>
+size_t Stack<T>::size() const
+{
+     return size_;
+}
 
-     void push(const T& value)
-     {
-          top_ = createNode(value, top_);
-          ++size_;
-     }
+template <typename T>
+bool Stack<T>::empty() const
+{
+     return top_ == nullptr;
+}
 
-     void push(T&& value)
-     {
-          top_ = createNode(std::move(value), top_);
-          ++size_;
-     }
+template <typename T>
+void Stack<T>::push(const T& value)
+{
+     top_ = createNode(value, top_);
+     ++size_;
+}
 
-     void pop()
-     {
-          if (top_)
-          {
-               Node* tmpNode = top_;
-               top_ = top_->prev_;
-               delete tmpNode;
-               --size_;
-          }
-     }
+template <typename T>
+void Stack<T>::push(T&& value)
+{
+     top_ = createNode(std::move(value), top_);
+     ++size_;
+}
 
-     T& top()
+template <typename T>
+void Stack<T>::pop()
+{
+     if (top_)
      {
-          return const_cast<T&>(static_cast<const Stack&>(*this).top());
+          Node* tmpNode = top_;
+          top_ = top_->prev_;
+          delete tmpNode;
+          --size_;
      }
+}
 
-     const T& top() const
+template <typename T>
+T& Stack<T>::top()
+{
+     return const_cast<T&>(static_cast<const Stack&>(*this).top());
+}
+
+template <typename T>
+const T& Stack<T>::top() const
+{
+     if (top_)
      {
-          if (top_)
-          {
-               return top_->value_;
-          }
-          throw custom::exceptions::EStackEmpty("Runtime error: stack is empty. Called function top()");
+          return top_->value_;
      }
-
-public:
-     Node* top_ {};      // указатель(хвост) на узел
-     size_t size_ {};    // размерность стека
-};
+     throw custom::exceptions::EStackEmpty("Runtime error: stack is empty. Called function top()");
+}
 
 }    // namespace objects
 }    // namespace custom
