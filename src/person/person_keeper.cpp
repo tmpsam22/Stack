@@ -1,6 +1,7 @@
 #include <person/person_keeper.h>
 
-// файл person_keeper.cpp содержит реализации класса PersonKeeper
+/// @file person_keeper.cpp
+/// @brief содержит реализации класса PersonKeeper
 namespace custom
 {
 namespace objects

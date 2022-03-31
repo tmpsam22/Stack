@@ -1,8 +1,8 @@
 #include <person/person.h>
 #include <iostream>
 
-// файл person.cpp содержит реализации объекта person/person.h
-
+/// @file person.cpp
+/// @brief содержит реализации объекта person/person.h
 namespace custom
 {
 namespace objects
