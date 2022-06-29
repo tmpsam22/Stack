@@ -126,7 +126,8 @@ void Stack<T>::copyFromTo(const Stack& rhs) // вспомогательная ф
           // данные из копируемого объекта, в данном  случае rhs
           // в целях сохранении последовательности
           // сначала записываются в динамический массив:
-          std::vector<T> v{ rhs.size() };
+          std::vector<T> v;
+          v.reserve(rhs.size());
           while (tmpNode_)
           {
                v.push_back(tmpNode_->value_);
@@ -187,7 +188,7 @@ Stack<T>::Stack(Stack<T>&& rhs) : top_(rhs.top_), size_(rhs.size_)
 template <typename T>
 Stack<T>& Stack<T>::operator=(const Stack<T>& rhs)
 {
-     if (this != &rhs)
+     if (this == &rhs)
      {
           return *this;
      }
@@ -200,7 +201,7 @@ Stack<T>& Stack<T>::operator=(const Stack<T>& rhs)
 template <typename T>
 Stack<T>& Stack<T>::operator=(Stack<T>&& rhs)
 {
-     if (this != &rhs)
+     if (this == &rhs)
      {
           return *this;
      }
