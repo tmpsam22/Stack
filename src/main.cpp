@@ -18,33 +18,106 @@ void display(Stack<T> stack)
      }
 }
 
-void test(const std::string& in_filename, const std::string& out_filename)
+void display_test(const std::string& message)
 {
-     std::fstream file(in_filename); // открываем файл на чтение
-     // получаем единственный экземляр PersonKeeper и с помощью него считываем из файла данные в стек
+     std::cout << "--------------TEST--------------" << std::endl;
+     std::cout << message << std::endl;
+}
 
-     auto stackPersons = PersonKeeper::CreateInstance().readPersons(file);
-     // данные в полученном стеке выводим в консоль
+void test()
+{
+     const std::string out_filename{ "../default_output.txt" };
+     const std::string valid_file{"../valid_names.txt"};
+     const std::string invalid_file{"../invalid_symbol.txt"};
+     display_test("EXPECT INVALID SYMBOL IN FILE");
+     try {
+          // создается статический объект PersonKeeper
+          // извлекаем ФИО из файла
+          PersonKeeper::CreateInstance().readPersons(invalid_file);
+          // ожидается исключение runtime_error с сообщением об ошибки:
+          // Got unexpected symbol in file
+     } catch( std::exception& e) {
+          std::cerr << e.what() << std::endl;
+     }
 
-     display(stackPersons);
-     // записываем полученные данные в файл с помощью ед. экзмепляра PersonKeeper
-     PersonKeeper::CreateInstance().writePersons(stackPersons, file);
+     // valid data - это ФИО
+
+     display_test("READING valid data, arg is string");
+
+     // Считываем валидные данные (Ожидается ФИО) из файла:
+     auto stack = PersonKeeper::CreateInstance().readPersons(valid_file);
+     display(stack);
+
+     display_test("READING valid data, arg is ifstream");
+     std::ifstream ifile {valid_file};
+     stack = PersonKeeper::CreateInstance().readPersons(ifile);
+     display(stack);
+
+     display_test("READING valid data, arg is fstream");
+     std::fstream file {valid_file};
+     stack = PersonKeeper::CreateInstance().readPersons(file);
+     display(stack);
+
+     display_test("WRITING valid data to file, arg is string");
+     Stack<Person> stack_w
+     {
+          Person (
+               Person::first_name{"A"},
+               Person::second_name{"B"},
+               Person::patronymic{"C"}
+          )
+     };
+
+     PersonKeeper::CreateInstance().writePersons(stack_w, out_filename);
+     std::cout << "Checking result:\n";
+     display(
+          PersonKeeper::CreateInstance().readPersons(out_filename)
+     );
+
+     display_test("WRITING valid data to file, arg is fstream");
+     std::fstream file_w {out_filename};
+     PersonKeeper::CreateInstance().writePersons(stack_w, file_w);
+     std::cout << "Checking result:\n";
+     display(
+          PersonKeeper::CreateInstance().readPersons(out_filename)
+     );
+
+     display_test("WRITING valid data to file, arg is ofstream");
+     std::ofstream ofile {out_filename};
+     PersonKeeper::CreateInstance().writePersons(stack_w, ofile);
+     std::cout << "Checking result:\n";
+     display(
+          PersonKeeper::CreateInstance().readPersons(out_filename)
+     );
+
+     std::cout << "\nTesting class Person\n";
+     auto& person = stack_w.top(); // получили объект Person для тестирования
+     display_test("Getting first name from Person");
+     std::cout << "first name: "<< person.getFirstName() << std::endl;
+     display_test("Getting second name from Person");
+     std::cout << "second name: " << person.getSecondName() << std::endl;
+     display_test("Getting patronymic from Person");
+     std::cout << "third name: "<< person.getPatronymic() << std::endl;
+     display_test("Setting \"X\" first name to Person");
+     person.setFirstName("X");
+
+     std::cout << "now first name: "<< person.getFirstName() << std::endl;
+     display_test("Setting \"Y\" second name to Person");
+
+     person.setSecondName("Y");
+     std::cout << "now second name: " << person.getSecondName() << std::endl;
+
+     display_test("Setting \"Z\" patronymic to Person");
+     person.setPatronymic("Z");
+     std::cout << "now third name: "<< person.getPatronymic() << std::endl;
+
 }
 
 int main(int argc, const char** argv) try
 {
      // достаточно запустить скрипт start_build.sh, который собирает проект
-     // и запускает исполняемый файл с валидными входными данными
-     // ожидаем:
-     //./first_lab names.txt fromstack.txt
-     // 1 аргумент - имя файла для открытия
-     // 2 аргумент - для записи
-     if (argc != 3)
-     {
-          return EXIT_FAILURE;
-     }
-
-     test(argv[1], argv[2]); // тестируем
+     // и запускает исполняемый файл
+     test(); // функция тестирования
      return EXIT_SUCCESS;
 }
 catch(custom::exceptions::EStackException& e)

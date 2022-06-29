@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(first_lab)
+project(lab_with_person_keeper)
 
 set (CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(SRC ${CURRENT_DIR}/src/main.cpp

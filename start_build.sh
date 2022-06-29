@@ -8,9 +8,4 @@ fi
 cd build && \
 cmake .. && \
 cmake --build .  && \
-echo $'Russian      Bear    Sibirovich
-Dmitriev Aleksandr   Dmitrievich
-Wild West Cowboy' > names.txt && \
-./first_lab names.txt fromstack.txt
-# names.txt is input file
-# fromstack.txt is output file
+./lab_with_person_keeper
