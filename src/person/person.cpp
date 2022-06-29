@@ -22,11 +22,6 @@ Person::Person(const first_name& first_name_,
         patronymic_(patronymic_arg.patronymic_)
 { }
 
-Person::Person()
-{ }
-Person::~Person()
-{ }
-
 const std::string& Person::getFirstName() const
 {
     return firstName_;

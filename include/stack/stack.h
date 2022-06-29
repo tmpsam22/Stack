@@ -119,19 +119,21 @@ public:
      size_t size_ {};    // размерность стека
 };
 
-
 template <typename T>
-void Stack<T>::copyFromTo(const Stack& rhs)
+void Stack<T>::copyFromTo(const Stack& rhs) // вспомогательная функция для копирования
 {
           Node* tmpNode_ =  rhs.top_;
-          std::vector<T> v;
-          v.reserve(rhs.size());
-
+          // данные из копируемого объекта, в данном  случае rhs
+          // в целях сохранении последовательности
+          // сначала записываются в динамический массив:
+          std::vector<T> v{ rhs.size() };
           while (tmpNode_)
           {
                v.push_back(tmpNode_->value_);
                tmpNode_ = tmpNode_->prev_;
           }
+          // записываем в текущий стек
+          // в обратной последовательности из динамического массива:
           std::for_each(v.rbegin(), v.rend(),
                     [&](const auto& value) { push(value); });
 }
@@ -145,9 +147,11 @@ typename Stack<T>::Node* Stack<T>::createNode(U&& value, Stack<T>::Node* prev)
      {
           tmpNode_ = new Node(std::forward<U>(value), prev);
      }
+     // при невозможности выделить память для узла - отлавливаем ошибку
      catch(std::bad_alloc& e)
      {
-          throw custom::exceptions::EStackException("Runtime error: bad_alloc");
+          // и выбрасываем исключение для нашего стека с соотвествующим сообщением:
+          throw custom::exceptions::EStackException("Runtime error: bad_alloc, can't create a node in stack");
      }
      return tmpNode_;
 }
@@ -169,12 +173,13 @@ Stack<T>::~Stack()
 template <typename T>
 Stack<T>::Stack(const Stack<T> & stack)
 {
-     copyFromTo(stack); // используется push(x) => size_ инкрементируется
+     copyFromTo(stack); // используется push(x) => size_ инкрементируется сам
 }
 
 template <typename T>
 Stack<T>::Stack(Stack<T>&& rhs) : top_(rhs.top_), size_(rhs.size_)
 {
+     // обнуляем значения у копируемого объекта
      rhs.top_ = nullptr;
      rhs.size_ = 0;
 }
@@ -187,8 +192,8 @@ Stack<T>& Stack<T>::operator=(const Stack<T>& rhs)
           return *this;
      }
 
-     this->~Stack();
-     copyFromTo(rhs);
+     this->~Stack();  // очищаем память для выделенных узлов
+     copyFromTo(rhs); // копируем значения у rhs
      return *this;
 }
 
@@ -200,9 +205,13 @@ Stack<T>& Stack<T>::operator=(Stack<T>&& rhs)
           return *this;
      }
 
-     this->~Stack();
+     this->~Stack(); // очищаем память для выделенных узлов
+
+     // берем значения у объекта rhs
      top_ = rhs.top_;
      size_ = rhs.size_;
+
+     // обнуляем значения у объекта rhs
      rhs.top_ = nullptr;
      rhs.size_ = 0;
      return *this;
@@ -224,14 +233,14 @@ template <typename T>
 void Stack<T>::push(const T& value)
 {
      top_ = createNode(value, top_);
-     ++size_;
+     ++size_; // увеличиваем размерность
 }
 
 template <typename T>
 void Stack<T>::push(T&& value)
 {
      top_ = createNode(std::move(value), top_);
-     ++size_;
+     ++size_; // увеличиваем размерность
 }
 
 template <typename T>
@@ -241,14 +250,15 @@ void Stack<T>::pop()
      {
           Node* tmpNode = top_;
           top_ = top_->prev_;
-          delete tmpNode;
-          --size_;
+          delete tmpNode; // очистить выделенный фрагмент памяти
+          --size_; // уменьшаем размерность
      }
 }
 
 template <typename T>
 T& Stack<T>::top()
 {
+     // вызов const функции top()
      return const_cast<T&>(static_cast<const Stack&>(*this).top());
 }
 
@@ -257,7 +267,7 @@ const T& Stack<T>::top() const
 {
      if (top_)
      {
-          return top_->value_;
+          return top_->value_; // возвращаем последний элемент, хранимый в хвосте
      }
      throw custom::exceptions::EStackEmpty("Runtime error: stack is empty. Called function top()");
 }

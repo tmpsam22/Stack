@@ -59,6 +59,7 @@ public:
     void writePersons(Stack<Person> stack, std::fstream& ofile);
 
 private:
+
     // Singleton - перемещение и копирование объекта запрещено
     PersonKeeper(const PersonKeeper&) = delete;
     PersonKeeper(PersonKeeper&&) = delete;
@@ -66,6 +67,7 @@ private:
     PersonKeeper& operator=(PersonKeeper&&) = delete;
 
 private:
+
     /// @brief вспомогательная функция, которая считывает ФИО из файла,
     /// используется в функциях readPersons
     Stack<Person> doReadPersons(std::istream&);
@@ -75,11 +77,16 @@ private:
     void doWritePersons(Stack<Person>& stack, std::ostream&);
 
 private:
+
     // Singleton - создание объекта через функцию CreateInstance()
-    PersonKeeper();
-    ~PersonKeeper();
+    PersonKeeper() = default;
+    ~PersonKeeper() = default;
 
 public:
+
+    /// @brief статическая функция получения
+    // единственного экземпляра PersonKeeper
+    /// @return PersonKeeper
     static PersonKeeper& CreateInstance();
 };
 
