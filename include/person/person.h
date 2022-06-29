@@ -20,7 +20,7 @@ public:
     /// имени, фамилии и отчества
     /*
         Как пример:
-        Пусть имеется человек с именем A, с фамилией B и с отчеством B.
+        Пусть имеется человек с именем A, с фамилией B и с отчеством C.
 
         Person student(Person::first_name{"A"},
             Person::second_name{"B"},
@@ -37,12 +37,7 @@ public:
     /// @brief вспомогательный класс отвечающий за имя человека
     struct first_name
     {
-        /// конструкторы
-
-        /// @param firstName - имя человека
-        explicit first_name(std::string&& firstName) : firstName_(std::move(firstName))
-        {}
-
+        /// конструктор
         /// @param firstName - имя человека
         explicit first_name(const std::string& firstName) : firstName_(firstName)
         {}
@@ -54,11 +49,7 @@ public:
     /// @brief вспомогательный класс отвечающий за фамилию человека
     struct second_name
     {
-        /// конструкторы
-
-        /// @param secondName - фамилия человека
-        explicit second_name(std::string&& secondName) : secondName_(std::move(secondName))
-        {}
+        /// конструктор
 
         /// @param secondName - фамилия человека
         explicit second_name(const std::string& secondName) : secondName_(secondName)
@@ -71,10 +62,7 @@ public:
     /// @brief вспомогательный класс отвечающий за отчество человека
     struct patronymic
     {
-        /// конструкторы
-        /// @param patronymic - отчество человека
-        explicit patronymic(std::string&& patronymic) : patronymic_(std::move(patronymic))
-        {}
+        /// конструктор
 
         /// @param patronymic - отчество человека
         explicit patronymic(const std::string& patronymic) : patronymic_(patronymic)
@@ -87,19 +75,6 @@ public:
 public:
 
     /// @brief конструктор
-    /// фио записаны в виде вспомогательных классов,
-    /// определенных выше
-    /// @param first_name - имя человека
-    /// @param second_name - фамилия человека
-    /// @param patronymic - отчество человека
-    explicit Person(
-        first_name&& first_name,
-        second_name&& second_name,
-        patronymic&& patronymic
-    );
-
-    /// @brief конструктор
-    /// фио записаны в виде std::string
     /// @param first_name - имя человека
     /// @param second_name - фамилия человека
     /// @param patronymic - отчество человека

@@ -8,13 +8,6 @@ namespace custom
 namespace objects
 {
 
-Person::Person(first_name&& first_name_,
-    second_name&& second_name_, patronymic&& patronymic_arg) :
-        firstName_(std::move(first_name_.firstName_)),
-        secondName_(std::move(second_name_.secondName_)),
-        patronymic_(std::move(patronymic_arg.patronymic_))
-{ }
-
 Person::Person(const first_name& first_name_,
     const second_name& second_name_, const patronymic& patronymic_arg) :
         firstName_(first_name_.firstName_),
