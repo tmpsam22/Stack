@@ -96,7 +96,8 @@ void test()
 int main(int argc, const char** argv) try
 {
      // достаточно запустить скрипт start_build.sh, который собирает проект
-     // и запускает исполняемый файл
+     // и запускает исполняемый файл only_stack
+     // входных и выходных параметров программа не ожидает
      test();
      return EXIT_SUCCESS;
 }
